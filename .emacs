@@ -1,6 +1,26 @@
 ;;设置用户名和邮件地址
 (setq user-full-name "liet")
 (setq user-mail-address "lietdai@gmail.com")
+;;在标题栏显示buffer的名字。
+(setq frame-title-format "emacs@%b")
+;;设置标题栏显示文件路径
+(defun frame-title-string ()
+  "Return the file name of current buffer, using ~ if under home directory"
+  (let
+      ((fname (or
+               (buffer-file-name (current-buffer))
+               (buffer-name)))
+       (max-len 100))
+    (when (string-match (getenv "HOME") fname)
+      (setq fname (replace-match "~" t t fname)))
+    (if (> (length fname) max-len)
+        (setq fname
+              (concat "..."
+                      (substring fname (- (length fname) max-len)))))
+    fname))
+(setq frame-title-format '("liet - Emacs@"(:eval (frame-title-string))))
+
+
 ;;tab and space
 ;;when true,emacs use mixture of tab and space to achieve offse
 (setq-default indent-tabs-mode nil)
@@ -129,3 +149,20 @@
   ;;"settings for `template'."
   (setq template-default-directories  "~/emacs.d/templates/"))
 (template-initialize)
+
+;;;;标签分组
+(require 'tabbar)
+(tabbar-mode)
+(define-prefix-command 'lwindow-map)
+(global-set-key (kbd "<M-up>") 'tabbar-backward-group)
+(global-set-key (kbd "<M-down>") 'tabbar-forward-group)
+(global-set-key (kbd "<M-left>") 'tabbar-backward)
+(global-set-key (kbd "<M-right>") 'tabbar-forward)
+; 设置默认主题: 字体, 背景和前景颜色，大小  
+(set-face-attribute 'tabbar-default-face nil  
+                    :family "DejaVu Sans Mono"  
+                    :background "gray80"  
+                    :foreground "gray30"  
+                    :height 1.0  
+                    )  
+;;设置tabbar结束
