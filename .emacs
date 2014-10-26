@@ -147,7 +147,7 @@
 (define-key global-map "\C-c\C-t" 'template-expand-template)
 (defun template-settings ()
   ;;"settings for `template'."
-  (setq template-default-directories  "~/emacs.d/templates/"))
+  (setq template-default-directories  "~/.emacs.d/templates/"))
 (template-initialize)
 
 ;;;;标签分组
